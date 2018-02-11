@@ -71,7 +71,9 @@ module Sysloggable
       }.merge!(params)
 
       result.
-        map { |key, value| "#{key}=#{value}" }.
+        map do |key, value|
+          "#{key}=#{value.is_a?(String) && value.include?(' ') ? value.inspect : value}"
+        end.
         join(@options.fetch(:separator, " "))
     end
   end
